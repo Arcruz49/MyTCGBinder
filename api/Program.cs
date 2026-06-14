@@ -16,6 +16,7 @@ using MyTCGBinder.Infrastructure.Middlewares;
 using MyTCGBinder.Infrastructure.Repositories;
 using MyTCGBinder.Infrastructure.TcgApi;
 using System.Text.Json.Serialization;
+using MyTCGBinder.Infrastructure.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ builder.Services.AddDbContext<Context>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCardRepository, UserCardRepository>();
 builder.Services.AddScoped<IPasswordResetTokenRepository, PasswordResetTokenRepository>();
+builder.Services.AddScoped<ITCGCardRepository, TCGCardRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Application services
@@ -58,6 +60,24 @@ builder.Services.AddScoped<IGetCollectionCountUseCase, GetCollectionCountUseCase
 builder.Services.AddScoped<IUpdateCardQuantityUseCase, UpdateCardQuantityUseCase>();
 builder.Services.AddScoped<ISearchCardsUseCase, SearchCardsUseCase>();
 builder.Services.AddScoped<IGetSetsUseCase, GetSetsUseCase>();
+
+// Jobs - TCG
+builder.Services.AddHttpClient("tcg", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["TcgApi:BaseUrl"]!);
+
+    var apiKey = builder.Configuration["TcgApi:Key"];
+    if (!string.IsNullOrEmpty(apiKey))
+        client.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
+});
+
+builder.Services.Configure<HostOptions>(options =>
+{
+    options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+});
+
+builder.Services.AddHostedService<SeedTcgCardsJob>();
+
 
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("Jwt:Key não configurado.");
@@ -87,18 +107,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             }
         };
     });
-
-var tcgBaseUrl = builder.Configuration["TcgApi:BaseUrl"]
-    ?? throw new InvalidOperationException("TcgApi:BaseUrl não configurado.");
-
-builder.Services.AddHttpClient<ITcgService, TcgService>(client =>
-{
-    client.BaseAddress = new Uri(tcgBaseUrl);
-
-    var apiKey = builder.Configuration["TcgApi:Key"];
-    if (!string.IsNullOrEmpty(apiKey))
-        client.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
-});
 
 
 builder.Services.AddAuthorization();

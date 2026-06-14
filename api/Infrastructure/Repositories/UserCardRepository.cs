@@ -11,7 +11,9 @@ public class UserCardRepository(Context db) : BaseRepository<UserCard>(db), IUse
 {
     public async Task<UserCard> GetByIdAsync(Guid id)
     {
-        return await FindAsync(id)
+        return await Query()
+            .Include(uc => uc.TCGCard)
+            .FirstOrDefaultAsync(uc => uc.Id == id)
             ?? throw new NotFoundException("Carta não encontrada");
     }
 
@@ -24,9 +26,10 @@ public class UserCardRepository(Context db) : BaseRepository<UserCard>(db), IUse
     public async Task<IEnumerable<UserCard>> GetAllByUserIdAsync(Guid userId)
     {
         return await Query()
+            .Include(uc => uc.TCGCard)
             .Where(uc => uc.UserId == userId)
-            .OrderBy(uc => uc.SetId)
-            .ThenBy(uc => uc.Number)
+            .OrderBy(uc => uc.TCGCard.SetId)
+            .ThenBy(uc => uc.TCGCard.Number)
             .ToListAsync();
     }
 

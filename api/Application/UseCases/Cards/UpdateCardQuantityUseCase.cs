@@ -1,10 +1,9 @@
 using MyTCGBinder.Application.DTOs.Request;
 using MyTCGBinder.Application.DTOs.Responses;
 using MyTCGBinder.Application.Interfaces;
-using MyTCGBinder.Domain.Entities;
 using MyTCGBinder.Domain.Exceptions;
 using MyTCGBinder.Domain.Interfaces;
- 
+
 namespace MyTCGBinder.Application.UseCases;
 public class UpdateCardQuantityUseCase(
     IUserCardRepository userCardRepository,
@@ -40,13 +39,13 @@ public class UpdateCardQuantityUseCase(
         {
             Id = card.Id,
             TcgCardId = card.TcgCardId,
-            Name = card.Name,
-            Number = card.Number,
-            SetId = card.SetId,
-            SetName = card.SetName,
-            Rarity = card.Rarity,
-            ImageSmall = card.ImageUrl,
-            ImageLarge = card.ImageUrlLarge,
+            Name = card.TCGCard.Name,
+            Number = card.TCGCard.Number,
+            SetId = card.TCGCard.SetId,
+            SetName = card.TCGCard.SetName,
+            Rarity = card.TCGCard.Rarity,
+            ImageSmall = card.TCGCard.ImageSmall,
+            ImageLarge = card.TCGCard.ImageLarge,
             Variant = card.Variant,
             Quantity = card.Quantity
         };

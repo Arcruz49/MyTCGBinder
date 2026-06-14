@@ -1,6 +1,6 @@
 # MyTCGBinder
 
-A Pokémon TCG collection manager. Search cards from the public [pokemontcg.io](https://pokemontcg.io) API, add them to your collection with quantity and variant tracking, and filter by set.
+A Pokémon TCG collection manager. On first startup the API syncs the full card catalog from [pokemontcg.io](https://pokemontcg.io) into a local PostgreSQL table — all searches and set listings run against the local database, with no live API calls during normal use.
 
 ## Stack
 
@@ -79,9 +79,13 @@ TcgApi__BaseUrl=https://api.pokemontcg.io/v2/
 ```
 MyTCGBinder/
 ├── api/                  # ASP.NET Core 10
-│   ├── Domain/           # Entities, Value Objects, enums, repository interfaces
+│   ├── Domain/           # Entities (User, UserCard, TCGCard), Value Objects, enums, repository interfaces
 │   ├── Application/      # Use cases, DTOs, service interfaces
-│   ├── Infrastructure/   # EF Core, repositories, TcgService, EmailService
+│   ├── Infrastructure/
+│   │   ├── Data/         # EF Core Context
+│   │   ├── Repositories/ # UserRepository, UserCardRepository, TCGCardRepository
+│   │   ├── Jobs/         # SeedTcgCardsJob (populates tcg_cards on startup)
+│   │   └── ...           # EmailService, ExceptionMiddleware
 │   └── Controllers/      # AuthController, CardController, TcgController
 ├── front/                # Angular 19+
 │   └── src/app/
@@ -116,8 +120,8 @@ MyTCGBinder/
 ### TCG (`/tcg`) — requires auth
 | Method | Route | Description |
 |--------|-------|-------------|
-| GET | `/tcg/sets` | List all sets |
-| GET | `/tcg/search?name=&setId=` | Search cards on pokemontcg.io |
+| GET | `/tcg/sets` | List all sets (from local DB) |
+| GET | `/tcg/search?name=&setId=` | Search cards (from local DB, up to 100 results) |
 
 ## Card variants
 
