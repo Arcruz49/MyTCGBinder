@@ -35,9 +35,18 @@ services:
       - App__BaseUrl=${APP_BASE_URL}
       - TcgApi__BaseUrl=${TcgApi__BaseUrl:-https://api.pokemontcg.io/v2/}
       - TcgApi__Key=${TCG_API_KEY}
+      - Cors__AllowedOrigins=${CORS_ALLOWED_ORIGINS:-http://localhost:4201}
     depends_on:
       db:
         condition: service_healthy
+
+  front:
+    build:
+      context: ./front
+    ports:
+      - "4201:80"
+    depends_on:
+      - api
 
 volumes:
   pgdata:

@@ -1,0 +1,34 @@
+@if (cards().length === 0) {
+  <div class="empty-state">
+    <div class="empty-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+      </svg>
+    </div>
+    <p class="empty-title">No cards yet</p>
+    <p class="empty-sub">Tap the + button to add cards to your collection</p>
+  </div>
+} @else {
+  <div class="card-grid">
+    @for (card of cards(); track trackById($index, card)) {
+      <button class="card-item" (click)="onCardClick(card)" type="button">
+        <div class="card-image-wrap">
+          <img
+            [src]="card.imageSmall"
+            [alt]="card.name"
+            class="card-image"
+            loading="lazy"
+          />
+          <span class="qty-badge">×{{ card.quantity }}</span>
+          @if (card.variant !== 'Normal') {
+            <span class="variant-badge">{{ variantLabel(card.variant) }}</span>
+          }
+        </div>
+        <div class="card-info">
+          <span class="card-name">{{ card.name }}</span>
+          <span class="card-set">{{ card.setName }}</span>
+        </div>
+      </button>
+    }
+  </div>
+}

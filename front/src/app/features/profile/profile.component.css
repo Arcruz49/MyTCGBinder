@@ -1,0 +1,117 @@
+.profile-page {
+  padding: 16px 16px 80px;
+  max-width: 480px;
+}
+
+@media (min-width: 768px) {
+  .profile-page {
+    margin-left: 200px;
+    padding: 72px 24px 32px;
+  }
+}
+
+/* ── Profile card ── */
+.profile-card {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 20px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.avatar-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 2px solid var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.trainer-name {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.trainer-label {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  margin: 0 0 14px;
+}
+
+.trainer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(144, 224, 239, 0.08);
+  border: 0.5px solid var(--cyan);
+  color: var(--cyan);
+  font-size: 0.78rem;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+/* ── Actions ── */
+.actions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.error-message {
+  background: rgba(230, 57, 70, 0.1);
+  border: 0.5px solid var(--red);
+  color: #ff8a92;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 0.5px solid var(--border);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 13px 18px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.logout-btn:hover:not(:disabled) {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+.logout-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* ── Spinner ── */
+.spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255,255,255,0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }

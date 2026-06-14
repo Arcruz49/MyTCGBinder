@@ -1,0 +1,76 @@
+.pokedex-header {
+  background-color: var(--red);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+@media (min-width: 768px) {
+  .pokedex-header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.lens-outer {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1a6fd4;
+  border: 3px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lens-inner {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0.85;
+}
+
+.header-dots {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red    { background: #ff6b6b; }
+.dot-yellow { background: #ffd166; }
+.dot-green  { background: #06d6a0; }
+
+.header-title {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.app-name {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}

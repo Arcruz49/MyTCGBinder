@@ -57,8 +57,8 @@ public class CardController : BaseController
     [HttpPatch("{id}/quantity")]
     public async Task<IActionResult> UpdateQuantity(Guid id, [FromBody] UpdateCardQuantityRequest request)
     {
-        await _updateCardQuantityUseCase.ExecuteAsync(UserId, id, request);
-        return Ok();
+        var result = await _updateCardQuantityUseCase.ExecuteAsync(UserId, id, request);
+        return Ok(result);
     }
 
     [HttpDelete("{id}")]

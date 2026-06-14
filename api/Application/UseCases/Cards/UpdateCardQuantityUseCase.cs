@@ -10,13 +10,13 @@ public class UpdateCardQuantityUseCase(
     IUserCardRepository userCardRepository,
     IUnitOfWork unitOfWork) : IUpdateCardQuantityUseCase
 {
-    public async Task ExecuteAsync(Guid userId, Guid cardId, UpdateCardQuantityRequest request)
+    public async Task<CardResponse> ExecuteAsync(Guid userId, Guid cardId, UpdateCardQuantityRequest request)
     {
         var card = await userCardRepository.GetByIdAsync(cardId);
- 
+
         if (card.UserId != userId)
             throw new ForbiddenException("Acesso negado");
- 
+
         if (request.Action == "increment")
         {
             card.Quantity++;
@@ -25,15 +25,30 @@ public class UpdateCardQuantityUseCase(
         {
             if (card.Quantity <= 1)
                 throw new ValidationException("Quantidade não pode ser menor que 1. Use DELETE para remover a carta.");
- 
+
             card.Quantity--;
         }
         else
         {
             throw new ValidationException("Action inválida. Use 'increment' ou 'decrement'.");
         }
- 
+
         userCardRepository.UpdateAsync(card);
         await unitOfWork.SaveChangesAsync();
+
+        return new CardResponse
+        {
+            Id = card.Id,
+            TcgCardId = card.TcgCardId,
+            Name = card.Name,
+            Number = card.Number,
+            SetId = card.SetId,
+            SetName = card.SetName,
+            Rarity = card.Rarity,
+            ImageSmall = card.ImageUrl,
+            ImageLarge = card.ImageUrlLarge,
+            Variant = card.Variant,
+            Quantity = card.Quantity
+        };
     }
 }

@@ -1,0 +1,135 @@
+<div class="modal-backdrop" (click)="onBackdropClick($event)">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title">Search Cards</h2>
+      <button class="modal-close" (click)="close()" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-search">
+      <div class="search-input-wrap">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search by card name..."
+          [value]="searchQuery()"
+          (input)="onSearchChange($any($event.target).value)"
+          autocomplete="off"
+        />
+      </div>
+
+      <select
+        class="set-select"
+        [value]="selectedSetId()"
+        (change)="onSetChange($any($event.target).value)"
+      >
+        <option value="">All Sets</option>
+        @for (set of sets(); track set.id) {
+          <option [value]="set.id">{{ set.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="modal-results">
+      @if (loading()) {
+        <div class="loading-state">
+          <span class="spinner"></span>
+          <span>Searching...</span>
+        </div>
+      } @else if (results().length === 0 && searchQuery()) {
+        <div class="empty-results">
+          <p>No cards found for "{{ searchQuery() }}"</p>
+        </div>
+      } @else if (results().length === 0) {
+        <div class="empty-results">
+          <p>Type a card name to search the Pokémon TCG database</p>
+        </div>
+      } @else {
+        <div class="results-grid">
+          @for (card of results(); track card.id) {
+            <button class="result-card" (click)="selectCard(card)" type="button">
+              <img
+                [src]="card.imageSmall"
+                [alt]="card.name"
+                class="result-image"
+                loading="lazy"
+              />
+              <span class="result-name">{{ card.name }}</span>
+              <span class="result-set">{{ card.setName }}</span>
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+@if (selectedCard()) {
+  <div class="add-backdrop" (click)="onAddBackdropClick($event)">
+    <div class="add-modal">
+      <div class="add-header">
+        <h3>Add to Collection</h3>
+        <button class="modal-close" (click)="closeAddModal()" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="add-content">
+        <div class="add-card-preview">
+          <img
+            [src]="selectedCard()!.imageSmall"
+            [alt]="selectedCard()!.name"
+            class="add-card-image"
+            loading="lazy"
+          />
+          <div class="add-card-info">
+            <div class="add-card-name">{{ selectedCard()!.name }}</div>
+            <div class="add-card-set">{{ selectedCard()!.setName }}</div>
+            <div class="add-card-rarity">{{ selectedCard()!.rarity }}</div>
+          </div>
+        </div>
+
+        <div class="variant-detected">
+          <span class="variant-detected-label">Variant</span>
+          <span class="variant-detected-value">{{ variantLabels[selectedVariant()] }}</span>
+        </div>
+
+@if (addError()) {
+          <div class="add-error">{{ addError() }}</div>
+        }
+
+        @if (addSuccess()) {
+          <div class="add-success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+            Card added to collection!
+          </div>
+        }
+
+        <button
+          class="confirm-btn"
+          (click)="confirmAdd()"
+          [disabled]="addingCard() !== null || addSuccess()"
+        >
+          @if (addingCard()) {
+            <span class="spinner"></span>
+            Adding...
+          } @else if (addSuccess()) {
+            Added!
+          } @else {
+            Add to Collection
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}

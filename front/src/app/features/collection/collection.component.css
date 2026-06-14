@@ -1,0 +1,223 @@
+.collection-page {
+  padding: 12px 12px 80px;
+  max-width: 1200px;
+}
+
+@media (min-width: 768px) {
+  .collection-page {
+    margin-left: 200px;
+    padding: 72px 24px 32px; /* 56px header + 16px gap */
+  }
+}
+
+/* ── Metrics ── */
+.metrics {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin-bottom: 12px;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+}
+
+.metric-value {
+  color: var(--cyan);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.metric-label {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.metric-divider {
+  width: 0.5px;
+  height: 32px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Search bar ── */
+.search-bar-wrap {
+  margin-bottom: 10px;
+}
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 11px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 36px 10px 38px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.search-input:focus { border-color: var(--cyan); }
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.clear-btn:hover { color: var(--text-primary); }
+
+/* ── Set chips ── */
+.set-chips-wrap {
+  overflow-x: auto;
+  margin-bottom: 12px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.set-chips-wrap::-webkit-scrollbar { display: none; }
+
+.set-chips {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 2px 0;
+}
+
+.set-chip {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 14px;
+  border: 0.5px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.set-chip:hover { border-color: var(--cyan); color: var(--cyan); }
+
+.set-chip.active {
+  background: rgba(144, 224, 239, 0.08);
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+/* ── Grid section ── */
+.grid-section { min-height: 160px; }
+
+/* Skeleton */
+.loading-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (min-width: 768px) {
+  .loading-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+}
+
+@media (min-width: 1024px) {
+  .loading-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+.skeleton-card {
+  background: var(--bg-surface);
+  border-radius: 8px;
+  aspect-ratio: 5 / 7;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ── Pagination ── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 0.5px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.page-btn:hover:not(:disabled):not(.active) {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.page-btn.active {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+.page-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.page-ellipsis {
+  color: var(--text-secondary);
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  height: 34px;
+}

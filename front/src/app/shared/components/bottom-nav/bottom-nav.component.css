@@ -1,0 +1,131 @@
+/* ── Mobile: bottom bar ── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--bg-surface);
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 10px;
+  padding: 6px 20px;
+  border-radius: 8px;
+  transition: color 0.15s;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  color: var(--cyan);
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+.fab-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-6px);
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+
+.fab-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.fab-btn:hover  { transform: translateY(-8px); }
+.fab-btn:active { transform: translateY(-4px); }
+
+/* ── Desktop: left sidebar ── */
+@media (min-width: 768px) {
+  .bottom-nav {
+    position: fixed;
+    left: 0;
+    top: 56px;
+    bottom: 0;
+    right: auto;
+    width: 200px;
+    height: auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    border-top: none;
+    border-right: 0.5px solid var(--border);
+    padding: 12px 0;
+  }
+
+  .nav-item {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 11px 20px;
+    font-size: 0.875rem;
+    gap: 12px;
+    border-radius: 0;
+    flex: none;
+  }
+
+  .nav-item svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-spacer {
+    display: none;
+  }
+
+  .fab-btn {
+    transform: none;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    margin: 4px 12px;
+    padding: 10px 8px 10px 20px;
+    justify-content: flex-start;
+    gap: 12px;
+    font-size: 0.875rem;
+  }
+
+  .fab-btn::after {
+    content: 'Add Card';
+  }
+
+  .fab-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .fab-btn:hover  { transform: none; background: #c62833; }
+  .fab-btn:active { transform: none; }
+}
