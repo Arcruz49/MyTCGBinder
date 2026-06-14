@@ -1,0 +1,10 @@
+# Secrets
+.env
+.claude
+# .NET
+api/bin/
+api/obj/
+*.user
+
+# Logs
+*.log
