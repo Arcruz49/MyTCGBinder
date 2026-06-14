@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 56px;
+  height: 60px;
   background: var(--bg-surface);
   border-top: 0.5px solid var(--border);
   display: flex;
@@ -18,11 +18,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 10px;
-  padding: 6px 20px;
+  padding: 6px 24px;
   border-radius: 8px;
   transition: color 0.15s;
   flex: 1;
@@ -30,8 +30,8 @@
 }
 
 .nav-item svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
 }
 
@@ -40,13 +40,11 @@
   color: var(--cyan);
 }
 
-.nav-spacer {
-  flex: 1;
-}
+.nav-spacer { flex: 1; }
 
 .fab-btn {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: var(--red);
   color: #fff;
@@ -55,18 +53,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-6px);
-  transition: transform 0.15s;
+  transform: translateY(-8px);
+  transition: transform 0.15s, background 0.15s;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.35);
 }
 
-.fab-btn svg {
-  width: 22px;
-  height: 22px;
-}
-
-.fab-btn:hover  { transform: translateY(-8px); }
-.fab-btn:active { transform: translateY(-4px); }
+.fab-btn svg { width: 24px; height: 24px; }
+.fab-btn:hover  { transform: translateY(-10px); background: var(--red-dark, #c62833); }
+.fab-btn:active { transform: translateY(-6px); }
 
 /* ── Desktop: left sidebar ── */
 @media (min-width: 768px) {
@@ -76,56 +71,53 @@
     top: 56px;
     bottom: 0;
     right: auto;
-    width: 200px;
+    width: 220px;
     height: auto;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
     border-top: none;
     border-right: 0.5px solid var(--border);
-    padding: 12px 0;
+    padding: 16px 0;
+    gap: 2px;
   }
 
   .nav-item {
     flex-direction: row;
     justify-content: flex-start;
-    padding: 11px 20px;
+    padding: 12px 20px;
     font-size: 0.875rem;
-    gap: 12px;
+    gap: 14px;
     border-radius: 0;
     flex: none;
+    border-left: 2px solid transparent;
   }
 
-  .nav-item svg {
-    width: 20px;
-    height: 20px;
+  .nav-item.active {
+    border-left-color: var(--cyan);
+    background: rgba(144, 224, 239, 0.05);
   }
 
-  .nav-spacer {
-    display: none;
-  }
+  .nav-item svg { width: 20px; height: 20px; }
+
+  .nav-spacer { display: none; }
 
   .fab-btn {
     transform: none;
     width: auto;
     height: auto;
     border-radius: 8px;
-    margin: 4px 12px;
-    padding: 10px 8px 10px 20px;
+    margin: 8px 12px;
+    padding: 11px 16px;
     justify-content: flex-start;
-    gap: 12px;
+    gap: 14px;
     font-size: 0.875rem;
+    box-shadow: none;
   }
 
-  .fab-btn::after {
-    content: 'Add Card';
-  }
+  .fab-btn::after { content: 'Add Card'; }
+  .fab-btn svg { width: 20px; height: 20px; }
 
-  .fab-btn svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .fab-btn:hover  { transform: none; background: #c62833; }
+  .fab-btn:hover  { transform: none; background: var(--red-dark, #c62833); }
   .fab-btn:active { transform: none; }
 }

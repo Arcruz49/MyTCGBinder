@@ -4,12 +4,13 @@
   --bg-surface-2: #162233;
   --border:       #2a3f55;
   --red:          #e63946;
+  --red-dark:     #c62833;
   --cyan:         #90e0ef;
+  --cyan-dim:     rgba(144, 224, 239, 0.08);
   --text-primary: #ffffff;
   --text-secondary: #4a6fa5;
   --text-muted:   #2d4a6b;
 
-  /* backward-compat aliases used by component CSS */
   --bg:      var(--bg-primary);
   --surface: var(--bg-surface);
   --text:    var(--text-primary);
@@ -22,9 +23,7 @@
   font-weight: 400;
 }
 
-html, body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
 body {
   background-color: var(--bg-primary);
@@ -36,9 +35,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 500;
-}
+h1, h2, h3, h4, h5, h6 { font-weight: 500; }
 
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }

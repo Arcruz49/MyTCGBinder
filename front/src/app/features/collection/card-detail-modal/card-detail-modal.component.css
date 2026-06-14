@@ -1,13 +1,20 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.78);
+  background: rgba(0, 0, 0, 0.82);
   z-index: 200;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  padding: 16px;
+  padding: 0;
   animation: fadeIn 0.15s ease;
+}
+
+@media (min-width: 768px) {
+  .modal-backdrop {
+    align-items: center;
+    padding: 16px;
+  }
 }
 
 @keyframes fadeIn {
@@ -18,24 +25,46 @@
 .modal-container {
   background: var(--bg-surface);
   border: 0.5px solid var(--border);
-  border-radius: 12px;
-  max-width: 400px;
+  border-radius: 14px 14px 0 0;
+  max-width: 440px;
   width: 100%;
-  max-height: 90vh;
+  max-height: 92vh;
   overflow-y: auto;
   position: relative;
-  animation: slideUp 0.18s ease;
+  animation: slideUp 0.2s ease;
+}
+
+@media (min-width: 768px) {
+  .modal-container {
+    border-radius: 14px;
+    max-height: 88vh;
+  }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(16px); opacity: 0; }
+  from { transform: translateY(40px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* drag handle */
+.modal-container::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 10px auto 0;
+}
+
+@media (min-width: 768px) {
+  .modal-container::before { display: none; }
 }
 
 .modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   background: var(--bg-primary);
   border: 0.5px solid var(--border);
   border-radius: 50%;
@@ -47,33 +76,33 @@
   cursor: pointer;
   color: var(--text-secondary);
   z-index: 1;
-  transition: color 0.15s;
+  transition: color 0.15s, border-color 0.15s;
 }
 
-.modal-close:hover { color: var(--text-primary); }
+.modal-close:hover { color: var(--text-primary); border-color: var(--text-secondary); }
 
 .modal-image-wrap {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 24px 24px 12px;
-  background: linear-gradient(180deg, rgba(144, 224, 239, 0.04) 0%, transparent 100%);
+  padding: 28px 24px 16px;
+  background: linear-gradient(180deg, rgba(144, 224, 239, 0.03) 0%, transparent 100%);
 }
 
 .modal-card-image {
   max-width: 200px;
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 10px;
   object-fit: contain;
   background: var(--bg-primary);
 }
 
 .modal-info {
-  padding: 10px 18px 22px;
+  padding: 8px 18px 28px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .modal-name {
@@ -89,26 +118,25 @@
   flex-wrap: wrap;
 }
 
-.meta-item { color: var(--text-secondary); font-size: 0.82rem; }
+.meta-item { color: var(--text-secondary); font-size: 0.8rem; }
 .meta-sep  { color: var(--border); }
 
 .modal-badges {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  min-height: 2px;
 }
 
 .badge {
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 10px;
   font-size: 0.75rem;
 }
 
 .badge-variant {
-  background: rgba(144, 224, 239, 0.1);
+  background: rgba(144, 224, 239, 0.08);
   color: var(--cyan);
-  border: 0.5px solid var(--cyan);
+  border: 0.5px solid rgba(144, 224, 239, 0.4);
 }
 
 .quantity-section {
@@ -116,8 +144,8 @@
   align-items: center;
   justify-content: space-between;
   background: var(--bg-surface-2);
-  border-radius: 8px;
-  padding: 11px 14px;
+  border-radius: 10px;
+  padding: 13px 16px;
 }
 
 .quantity-label {
@@ -128,17 +156,17 @@
 .quantity-controls {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
 }
 
 .qty-btn {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: var(--bg-surface);
   border: 0.5px solid var(--border);
   color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -155,26 +183,31 @@
 
 .qty-value {
   color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 500;
-  min-width: 26px;
+  min-width: 28px;
   text-align: center;
 }
 
 .delete-btn {
   background: transparent;
-  border: 0.5px solid var(--red);
+  border: 0.5px solid rgba(230, 57, 70, 0.4);
   color: var(--red);
-  border-radius: 8px;
-  padding: 10px 14px;
+  border-radius: 10px;
+  padding: 12px 14px;
   font-size: 0.875rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
-.delete-btn:hover:not(:disabled) { background: var(--red); color: #fff; }
+.delete-btn:hover:not(:disabled) {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
 .delete-btn:disabled { opacity: 0.45; cursor: not-allowed; }

@@ -5,75 +5,116 @@
   align-items: center;
   justify-content: center;
   padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* faixa vermelha decorativa no topo, remetendo ao header da Pokédex */
+.auth-page::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: var(--red);
+}
+
+/* círculo decorativo de fundo */
+.auth-page::after {
+  content: '';
+  position: absolute;
+  top: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  border: 60px solid rgba(230, 57, 70, 0.04);
+  pointer-events: none;
 }
 
 .auth-card {
   background: var(--bg-surface);
   border: 0.5px solid var(--border);
-  border-radius: 12px;
-  padding: 28px 24px;
+  border-radius: 16px;
+  padding: 36px 28px 28px;
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Logo ── */
 .auth-logo {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .logo-lens {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: #1a6fd4;
+  background: linear-gradient(135deg, #1a6fd4 60%, #0a4a9e);
   border: 3px solid var(--red);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 12px;
+  margin: 0 auto 14px;
+  position: relative;
+  box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.15);
+}
+
+.logo-lens::after {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
 }
 
 .logo-lens-inner {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: var(--cyan);
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
 .auth-title {
   color: var(--text-primary);
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
-  margin: 0 0 4px;
+  margin: 0 0 5px;
+  letter-spacing: 0.3px;
 }
 
 .auth-subtitle {
   color: var(--text-secondary);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   margin: 0;
+  letter-spacing: 0.3px;
 }
 
 /* ── Tabs ── */
 .auth-tabs {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   background: var(--bg-primary);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 3px;
+  gap: 3px;
 }
 
 .tab-btn {
   flex: 1;
-  padding: 9px;
+  padding: 10px;
   border: none;
   background: transparent;
   color: var(--text-secondary);
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 400;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: background 0.15s, color 0.15s;
 }
 
@@ -86,49 +127,51 @@
 
 /* ── Error ── */
 .error-message {
-  background: rgba(230, 57, 70, 0.1);
-  border: 0.5px solid var(--red);
+  background: rgba(230, 57, 70, 0.08);
+  border: 0.5px solid rgba(230, 57, 70, 0.4);
   color: #ff8a92;
-  padding: 9px 12px;
+  padding: 10px 12px;
   border-radius: 8px;
   font-size: 0.82rem;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 /* ── Form ── */
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .form-group label {
   color: var(--text-secondary);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.3px;
 }
 
 .form-group input {
   background: var(--bg-primary);
   border: 0.5px solid var(--border);
-  border-radius: 8px;
-  padding: 11px 12px;
+  border-radius: 10px;
+  padding: 12px 14px;
   color: var(--text-primary);
   font-size: 0.9rem;
   transition: border-color 0.15s;
   outline: none;
+  width: 100%;
 }
 
 .form-group input:focus { border-color: var(--cyan); }
 
 .form-group input::placeholder {
   color: var(--text-secondary);
-  opacity: 0.45;
+  opacity: 0.4;
 }
 
 /* ── Submit ── */
@@ -136,21 +179,38 @@
   background: var(--red);
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 13px;
+  border-radius: 10px;
+  padding: 14px;
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
-  margin-top: 6px;
+  margin-top: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   transition: background 0.15s, opacity 0.15s;
+  letter-spacing: 0.3px;
 }
 
-.submit-btn:hover:not(:disabled) { background: #c62833; }
-.submit-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+.submit-btn:hover:not(:disabled) { background: var(--red-dark); }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── Divider decorativo ── */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border);
+}
 
 /* ── Spinner ── */
 .spinner {

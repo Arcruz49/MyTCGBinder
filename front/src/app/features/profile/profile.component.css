@@ -5,8 +5,9 @@
 
 @media (min-width: 768px) {
   .profile-page {
-    margin-left: 200px;
-    padding: 72px 24px 32px;
+    margin-left: 220px;
+    padding: 72px 28px 40px;
+    max-width: 700px;
   }
 }
 
@@ -14,21 +15,32 @@
 .profile-card {
   background: var(--bg-surface);
   border: 0.5px solid var(--border);
-  border-radius: 12px;
-  padding: 28px 20px;
+  border-radius: 14px;
+  padding: 32px 20px 24px;
   text-align: center;
   margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* detalhe superior vermelho */
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--red);
 }
 
 .avatar-wrap {
   display: flex;
   justify-content: center;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .avatar {
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background: var(--bg-primary);
   border: 2px solid var(--red);
@@ -40,15 +52,15 @@
 
 .trainer-name {
   color: var(--text-primary);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 500;
-  margin: 0 0 4px;
+  margin: 0 0 5px;
 }
 
 .trainer-label {
   color: var(--text-secondary);
-  font-size: 0.82rem;
-  margin: 0 0 14px;
+  font-size: 0.8rem;
+  margin: 0 0 16px;
 }
 
 .trainer-badge {
@@ -56,10 +68,10 @@
   align-items: center;
   gap: 6px;
   background: rgba(144, 224, 239, 0.08);
-  border: 0.5px solid var(--cyan);
+  border: 0.5px solid rgba(144, 224, 239, 0.3);
   color: var(--cyan);
   font-size: 0.78rem;
-  padding: 5px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
 }
 
@@ -71,10 +83,10 @@
 }
 
 .error-message {
-  background: rgba(230, 57, 70, 0.1);
-  border: 0.5px solid var(--red);
+  background: rgba(230, 57, 70, 0.08);
+  border: 0.5px solid rgba(230, 57, 70, 0.4);
   color: #ff8a92;
-  padding: 9px 12px;
+  padding: 10px 12px;
   border-radius: 8px;
   font-size: 0.82rem;
 }
@@ -82,10 +94,10 @@
 .logout-btn {
   background: transparent;
   border: 0.5px solid var(--border);
-  color: var(--text-primary);
-  border-radius: 8px;
-  padding: 13px 18px;
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 0.875rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -95,14 +107,13 @@
 }
 
 .logout-btn:hover:not(:disabled) {
-  background: var(--red);
+  background: rgba(230, 57, 70, 0.08);
   border-color: var(--red);
-  color: #fff;
+  color: var(--red);
 }
 
 .logout-btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
-/* ── Spinner ── */
 .spinner {
   width: 15px;
   height: 15px;
