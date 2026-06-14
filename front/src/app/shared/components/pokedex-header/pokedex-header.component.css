@@ -1,89 +1,38 @@
-.pokedex-header {
-  background-color: var(--red);
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  gap: 10px;
-  height: 56px;
-  position: sticky;
+.app-header {
+  position: fixed;
   top: 0;
-  z-index: 200;
-  border-bottom: 2px solid var(--red-dark, #c62833);
-}
-
-@media (min-width: 768px) {
-  .pokedex-header {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    padding: 0 24px;
-  }
-}
-
-.header-left {
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+  justify-content: space-between;
+  padding: 0 12px;
+  z-index: 150;
 }
 
-.lens-outer {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1a6fd4 60%, #0a4a9e);
-  border: 3px solid #fff;
+.header-logo {
+  font-size: 18px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s;
 }
 
-.lens-outer::after {
-  content: '';
-  position: absolute;
-  top: 4px; left: 5px;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.3);
-}
+.header-icon:hover { color: var(--text-primary); }
 
-.lens-inner {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--cyan);
-  opacity: 0.9;
-}
-
-.header-dots {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.dot-red    { background: #ff6b6b; border: 1px solid rgba(255,255,255,0.2); }
-.dot-yellow { background: #ffd166; border: 1px solid rgba(255,255,255,0.2); }
-.dot-green  { background: #06d6a0; border: 1px solid rgba(255,255,255,0.2); }
-
-.header-title {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.app-name {
-  color: #fff;
-  font-size: 1.15rem;
-  font-weight: 500;
-  letter-spacing: 0.8px;
+@media (min-width: 768px) {
+  .app-header { display: none; }
 }

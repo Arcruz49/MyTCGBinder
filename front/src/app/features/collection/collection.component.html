@@ -1,16 +1,25 @@
 <app-pokedex-header />
 
 <main class="collection-page">
-  <!-- Metrics -->
-  <section class="metrics">
-    <div class="metric-card">
-      <span class="metric-value">{{ totalCards() }}</span>
-      <span class="metric-label">cartas</span>
+  <!-- Stats row -->
+  <section class="stats-row">
+    <div class="stat-box">
+      <div class="stat-text">
+        <span class="stat-value">{{ totalCards() }}</span>
+        <span class="stat-label">Cards</span>
+      </div>
+      <svg class="stat-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12z"/>
+      </svg>
     </div>
-    <div class="metric-divider"></div>
-    <div class="metric-card">
-      <span class="metric-value">{{ distinctSets().length }}</span>
-      <span class="metric-label">sets</span>
+    <div class="stat-box">
+      <div class="stat-text">
+        <span class="stat-value">{{ distinctSets().length }}</span>
+        <span class="stat-label">Sets</span>
+      </div>
+      <svg class="stat-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
+      </svg>
     </div>
   </section>
 
@@ -34,6 +43,12 @@
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
           </svg>
         </button>
+      } @else {
+        <span class="filter-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+          </svg>
+        </span>
       }
     </div>
   </div>
@@ -115,6 +130,13 @@
     </div>
   }
 </main>
+
+<!-- Desktop FAB -->
+<button class="desktop-fab" (click)="openSearch()" type="button" aria-label="Add card">
+  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+  </svg>
+</button>
 
 <app-bottom-nav (addClick)="openSearch()" />
 

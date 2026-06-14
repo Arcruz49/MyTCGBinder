@@ -1,57 +1,62 @@
-:root {
-  --bg-primary:   #0d1b2a;
-  --bg-surface:   #1b2a3b;
-  --bg-surface-2: #162233;
-  --border:       #2a3f55;
-  --red:          #e63946;
-  --red-dark:     #c62833;
-  --cyan:         #90e0ef;
-  --cyan-dim:     rgba(144, 224, 239, 0.08);
-  --text-primary: #ffffff;
-  --text-secondary: #4a6fa5;
-  --text-muted:   #2d4a6b;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-  --bg:      var(--bg-primary);
-  --surface: var(--bg-surface);
-  --text:    var(--text-primary);
+:root {
+  --bg-app:       #0d0e1a;
+  --bg-surface:   #161728;
+  --bg-input:     #1e2035;
+  --accent:       #e53935;
+  --accent-hover: #c62828;
+  --text-primary: #ffffff;
+  --text-secondary: #8b8fa8;
+  --text-muted:   #5c6080;
+  --border:       rgba(255, 255, 255, 0.08);
+  --chip-bg:      #1e2035;
+  --radius-sm:    8px;
+  --radius-md:    12px;
+  --radius-lg:    16px;
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-weight: 400;
 }
 
 html, body { height: 100%; }
 
 body {
-  background-color: var(--bg-primary);
+  background: var(--bg-app);
   color: var(--text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 { font-weight: 500; }
-
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-app); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 :focus-visible {
-  outline: 1.5px solid var(--cyan);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
 ::selection {
-  background: rgba(144, 224, 239, 0.2);
+  background: rgba(229, 57, 53, 0.3);
   color: var(--text-primary);
 }
 
 button { font-family: inherit; }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
+
+.logo-text {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.logo-accent { color: var(--accent); }

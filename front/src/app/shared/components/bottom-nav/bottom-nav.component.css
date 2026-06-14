@@ -1,16 +1,15 @@
-/* ── Mobile: bottom bar ── */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 56px;
   background: var(--bg-surface);
-  border-top: 0.5px solid var(--border);
+  border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 8px;
+  padding: 0 12px;
   z-index: 100;
 }
 
@@ -20,104 +19,38 @@
   align-items: center;
   gap: 3px;
   color: var(--text-secondary);
-  text-decoration: none;
   font-size: 10px;
-  padding: 6px 24px;
-  border-radius: 8px;
-  transition: color 0.15s;
+  font-weight: 500;
   flex: 1;
   justify-content: center;
+  transition: color 0.15s;
 }
 
-.nav-item svg {
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-}
+.nav-item svg { width: 22px; height: 22px; flex-shrink: 0; }
 
 .nav-item:hover,
-.nav-item.active {
-  color: var(--cyan);
-}
-
-.nav-spacer { flex: 1; }
+.nav-item.active { color: var(--accent); }
 
 .fab-btn {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: var(--red);
+  background: var(--accent);
   color: #fff;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-8px);
-  transition: transform 0.15s, background 0.15s;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.35);
+  box-shadow: 0 4px 14px rgba(229, 57, 53, 0.4);
+  transition: background 0.15s, transform 0.15s;
 }
 
-.fab-btn svg { width: 24px; height: 24px; }
-.fab-btn:hover  { transform: translateY(-10px); background: var(--red-dark, #c62833); }
-.fab-btn:active { transform: translateY(-6px); }
+.fab-btn svg { width: 26px; height: 26px; }
+.fab-btn:hover  { background: var(--accent-hover); }
+.fab-btn:active { transform: scale(0.95); }
 
-/* ── Desktop: left sidebar ── */
 @media (min-width: 768px) {
-  .bottom-nav {
-    position: fixed;
-    left: 0;
-    top: 56px;
-    bottom: 0;
-    right: auto;
-    width: 220px;
-    height: auto;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    border-top: none;
-    border-right: 0.5px solid var(--border);
-    padding: 16px 0;
-    gap: 2px;
-  }
-
-  .nav-item {
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: 12px 20px;
-    font-size: 0.875rem;
-    gap: 14px;
-    border-radius: 0;
-    flex: none;
-    border-left: 2px solid transparent;
-  }
-
-  .nav-item.active {
-    border-left-color: var(--cyan);
-    background: rgba(144, 224, 239, 0.05);
-  }
-
-  .nav-item svg { width: 20px; height: 20px; }
-
-  .nav-spacer { display: none; }
-
-  .fab-btn {
-    transform: none;
-    width: auto;
-    height: auto;
-    border-radius: 8px;
-    margin: 8px 12px;
-    padding: 11px 16px;
-    justify-content: flex-start;
-    gap: 14px;
-    font-size: 0.875rem;
-    box-shadow: none;
-  }
-
-  .fab-btn::after { content: 'Add Card'; }
-  .fab-btn svg { width: 20px; height: 20px; }
-
-  .fab-btn:hover  { transform: none; background: var(--red-dark, #c62833); }
-  .fab-btn:active { transform: none; }
+  .bottom-nav { display: none; }
 }

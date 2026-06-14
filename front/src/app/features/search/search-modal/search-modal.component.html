@@ -36,6 +36,10 @@
       </select>
     </div>
 
+    @if (!loading() && results().length > 0) {
+      <p class="results-count">{{ results().length }} results found</p>
+    }
+
     <div class="modal-results">
       @if (loading()) {
         <div class="loading-state">

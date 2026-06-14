@@ -19,6 +19,7 @@ export class AuthComponent {
   readonly activeTab = signal<Tab>('login');
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
+  readonly showPassword = signal(false);
 
   // Login form
   loginEmail = '';
@@ -28,10 +29,15 @@ export class AuthComponent {
   registerName = '';
   registerEmail = '';
   registerPassword = '';
+  confirmPassword = '';
 
   setTab(tab: Tab): void {
     this.activeTab.set(tab);
     this.error.set(null);
+  }
+
+  togglePassword(): void {
+    this.showPassword.update(v => !v);
   }
 
   onLogin(): void {
@@ -55,8 +61,12 @@ export class AuthComponent {
   }
 
   onRegister(): void {
-    if (!this.registerName || !this.registerEmail || !this.registerPassword) {
+    if (!this.registerName || !this.registerEmail || !this.registerPassword || !this.confirmPassword) {
       this.error.set('Please fill in all fields.');
+      return;
+    }
+    if (this.registerPassword !== this.confirmPassword) {
+      this.error.set('Passwords do not match.');
       return;
     }
     this.loading.set(true);
