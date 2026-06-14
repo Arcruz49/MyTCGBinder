@@ -14,8 +14,8 @@ public class DeleteUserDataUseCase(
 
     public async Task ExecuteAsync(Guid userId)
     {
-        await userRepository.DeleteAsync(userId);
-
+        var user = await userRepository.GetByIdAsync(userId);
+        userRepository.DeleteAsync(user);
         await unitOfWork.SaveChangesAsync();
     }
 

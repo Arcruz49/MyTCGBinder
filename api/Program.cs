@@ -14,6 +14,7 @@ using MyTCGBinder.Domain.Interfaces;
 using MyTCGBinder.Infrastructure.Data;
 using MyTCGBinder.Infrastructure.Middlewares;
 using MyTCGBinder.Infrastructure.Repositories;
+using MyTCGBinder.Infrastructure.TcgApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,12 +32,21 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped<PasswordHasher<User>>();
 
-// Use cases
+// Use cases - Auth
 builder.Services.AddScoped<IAuthenticateUseCase, AuthenticateUseCase>();
 builder.Services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
 builder.Services.AddScoped<ISendEmailForgotPasswordUseCase, SendEmailForgotPasswordUseCase>();
 builder.Services.AddScoped<IResetPasswordUseCase, ResetPasswordUseCase>();
 builder.Services.AddScoped<IDeleteUserDataUseCase, DeleteUserDataUseCase>();
+
+// Use cases - Cards
+builder.Services.AddScoped<IAddCardUseCase, AddCardUseCase>();
+builder.Services.AddScoped<IDeleteCardUseCase, DeleteCardUseCase>();
+builder.Services.AddScoped<IGetCollectionUseCase, GetCollectionUseCase>();
+builder.Services.AddScoped<IGetCollectionCountUseCase, GetCollectionCountUseCase>();
+builder.Services.AddScoped<IUpdateCardQuantityUseCase, UpdateCardQuantityUseCase>();
+builder.Services.AddScoped<ISearchCardsUseCase, SearchCardsUseCase>();
+builder.Services.AddScoped<IGetSetsUseCase, GetSetsUseCase>();
 
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("Jwt:Key não configurado.");
@@ -66,6 +76,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             }
         };
     });
+
+var tcgBaseUrl = builder.Configuration["TcgApi:BaseUrl"]
+    ?? throw new InvalidOperationException("TcgApi:BaseUrl não configurado.");
+
+builder.Services.AddHttpClient<ITcgService, TcgService>(client =>
+{
+    client.BaseAddress = new Uri(tcgBaseUrl);
+
+    var apiKey = builder.Configuration["TcgApi:Key"];
+    if (!string.IsNullOrEmpty(apiKey))
+        client.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
+});
+
 
 builder.Services.AddAuthorization();
 
@@ -107,6 +130,8 @@ builder.Services.AddRateLimiter(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -114,6 +139,12 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<Context>();
     db.Database.Migrate();
+}
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseMiddleware<ExceptionMiddleware>();

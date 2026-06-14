@@ -42,7 +42,7 @@ public class ResetPasswordUseCase(
 
         passwordToken.UsedAt = DateTime.UtcNow;
 
-        await userRepository.UpdateAsync(user);
+        userRepository.UpdateAsync(user);
         
         await passwordResetTokenRepository.UpdateToken(passwordToken);
 

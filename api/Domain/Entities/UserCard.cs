@@ -26,7 +26,7 @@ public class UserCard
 
     [Required]
     [Column("number")]
-    [MaxLength(10)]
+    [MaxLength(20)]
     public string Number { get; set; } = string.Empty; // ex: "25"
 
     [Required]
@@ -45,6 +45,10 @@ public class UserCard
     [Column("image_url")]
     [MaxLength(255)]
     public string ImageUrl { get; set; } = string.Empty;
+
+    [Column("image_url_large")]
+    [MaxLength(255)]
+    public string ImageUrlLarge { get; set; } = string.Empty;
 
     [Column("variant")]
     public CardVariant Variant { get; set; } = CardVariant.Normal;
