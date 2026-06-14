@@ -2,6 +2,7 @@
 .env
 .claude
 CLAUDE.md
+api/appsettings.Development.json
 
 # .NET
 api/bin/

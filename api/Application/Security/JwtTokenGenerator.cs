@@ -16,8 +16,8 @@ namespace MyTCGBinder.Application.Security
 
         public string GenerateToken(Guid userId, string? userName)
         {
-            var keyString = _config["JWT_KEY"]
-                            ?? throw new Exception("JWT_KEY not configured");
+            var keyString = _config["Jwt:Key"]
+                            ?? throw new Exception("Jwt:Key not configured");
 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(keyString)
@@ -33,12 +33,12 @@ namespace MyTCGBinder.Application.Security
             };
 
             var expiresInMinutes = int.Parse(
-                _config["JWT_EXPIRES_MINUTES"] ?? "60"
+                _config["Jwt:ExpiresInMinutes"] ?? "60"
             );
 
             var token = new JwtSecurityToken(
-                issuer: _config["JWT_ISSUER"],
-                audience: _config["JWT_AUDIENCE"],
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(expiresInMinutes),
                 signingCredentials: creds

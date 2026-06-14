@@ -17,13 +17,8 @@ using MyTCGBinder.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Database
-var connStr = $"Host={builder.Configuration["DB_HOST"] ?? "localhost"};" +
-              $"Database={builder.Configuration["DB_NAME"] ?? "mytcgbinder"};" +
-              $"Username={builder.Configuration["DB_USER"]};" +
-              $"Password={builder.Configuration["DB_PASSWORD"]}";
-
-builder.Services.AddDbContext<Context>(options => options.UseNpgsql(connStr));
+builder.Services.AddDbContext<Context>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Repositories & Unit of Work
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -43,9 +38,8 @@ builder.Services.AddScoped<ISendEmailForgotPasswordUseCase, SendEmailForgotPassw
 builder.Services.AddScoped<IResetPasswordUseCase, ResetPasswordUseCase>();
 builder.Services.AddScoped<IDeleteUserDataUseCase, DeleteUserDataUseCase>();
 
-// JWT Authentication (token read from HttpOnly cookie)
-var jwtKey = builder.Configuration["JWT_KEY"]
-    ?? throw new InvalidOperationException("JWT_KEY não configurado.");
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException("Jwt:Key não configurado.");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -56,8 +50,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["JWT_ISSUER"],
-            ValidAudience = builder.Configuration["JWT_AUDIENCE"],
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
         };
 
@@ -75,7 +69,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// Rate limiting
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -116,6 +109,12 @@ builder.Services.AddRateLimiter(options =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<Context>();
+    db.Database.Migrate();
+}
 
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
