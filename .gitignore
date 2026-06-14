@@ -1,6 +1,8 @@
 # Secrets
 .env
 .claude
+CLAUDE.md
+
 # .NET
 api/bin/
 api/obj/
