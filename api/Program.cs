@@ -15,6 +15,7 @@ using MyTCGBinder.Infrastructure.Data;
 using MyTCGBinder.Infrastructure.Middlewares;
 using MyTCGBinder.Infrastructure.Repositories;
 using MyTCGBinder.Infrastructure.TcgApi;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,7 +70,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             OnMessageReceived = ctx =>
             {
-                var cookie = ctx.Request.Cookies["vitalsync_token"];
+                var cookie = ctx.Request.Cookies["MyTCGBinder_token"];
                 if (!string.IsNullOrEmpty(cookie))
                     ctx.Token = cookie;
                 return Task.CompletedTask;
@@ -129,7 +130,8 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

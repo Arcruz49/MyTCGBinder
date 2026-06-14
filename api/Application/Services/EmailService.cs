@@ -18,9 +18,9 @@ public class EmailService(IConfiguration config) : IEmailService
         var resetLink = $"{config["App:BaseUrl"]}/reset-password?token={Uri.EscapeDataString(token)}";
 
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress("VitalSync", _from));
+        message.From.Add(new MailboxAddress("MyTCGBinder", _from));
         message.To.Add(new MailboxAddress("", toEmail));
-        message.Subject = "Recuperação de senha — VitalSync";
+        message.Subject = "Recuperação de senha — MyTCGBinder";
 
         message.Body = new TextPart("html")
         {
@@ -40,7 +40,7 @@ public class EmailService(IConfiguration config) : IEmailService
                         <!-- HEADER -->
                         <tr>
                             <td style="background:#111827;padding:32px 40px;">
-                            <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.02em;">VitalSync.</h1>
+                            <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.02em;">MyTCGBinder.</h1>
                             </td>
                         </tr>
 
@@ -98,7 +98,7 @@ public class EmailService(IConfiguration config) : IEmailService
                                 Se você não solicitou a recuperação de senha, ignore este email. Sua senha permanece a mesma.
                             </p>
                             <p style="margin:0;color:#D1D5DB;font-size:11px;">
-                                © 2026 VitalSync · Plataforma de saúde personalizada
+                                © 2026 MyTCGBinder · Plataforma de saúde personalizada
                             </p>
                             </td>
                         </tr>

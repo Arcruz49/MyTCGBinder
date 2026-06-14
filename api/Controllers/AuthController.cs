@@ -39,7 +39,7 @@ public class AuthController : BaseController
         var result = await _authenticateUseCase.ExecuteAsync(request);
 
         var isHttps = Request.IsHttps;
-        Response.Cookies.Append("vitalsync_token", result.token, new CookieOptions
+        Response.Cookies.Append("MyTCGBinder_token", result.token, new CookieOptions
         {
             HttpOnly = true,
             Secure = isHttps,
@@ -56,7 +56,7 @@ public class AuthController : BaseController
         var result = await _registerUserUseCase.ExecuteAsync(request);
 
         var isHttps = Request.IsHttps;
-        Response.Cookies.Append("vitalsync_token", result.token, new CookieOptions
+        Response.Cookies.Append("MyTCGBinder_token", result.token, new CookieOptions
         {
             HttpOnly = true,
             Secure = isHttps,
@@ -80,7 +80,7 @@ public class AuthController : BaseController
     public IActionResult Logout()
     {
         var isHttps = Request.IsHttps;
-        Response.Cookies.Append("vitalsync_token", "", new CookieOptions
+        Response.Cookies.Append("MyTCGBinder_token", "", new CookieOptions
         {
             HttpOnly = true,
             Secure = isHttps,
