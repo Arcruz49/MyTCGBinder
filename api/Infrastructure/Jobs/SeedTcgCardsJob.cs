@@ -105,7 +105,7 @@ public class SeedTcgCardsJob : BackgroundService
                 try
                 {
                     response = await _httpClient.GetFromJsonAsync<TcgApiPagedResponse<TcgApiCard>>(
-                        $"cards?page={page}&pageSize={pageSize}&select=id,name,number,set,rarity,images",
+                        $"cards?page={page}&pageSize={pageSize}&orderBy=id&select=id,name,number,set,rarity,images",
                         _jsonOptions,
                         ct
                     );
@@ -127,26 +127,51 @@ public class SeedTcgCardsJob : BackgroundService
             if (response?.Data is null || response.Data.Count == 0)
                 break;
 
-            var batch = response.Data.Select(card => new TCGCard
+            // Filtra cartas que já existem no banco antes de inserir,
+            // evitando que uma única duplicata derrube o batch inteiro.
+            var incomingIds = response.Data.Select(c => c.Id).ToList();
+            var existingIds = await db.TCGCards
+                .Where(c => incomingIds.Contains(c.Id))
+                .Select(c => c.Id)
+                .ToListAsync(ct);
+            var existingIdSet = existingIds.ToHashSet();
+
+            var batch = response.Data
+                .Where(card => !existingIdSet.Contains(card.Id))
+                .Select(card => new TCGCard
+                {
+                    Id = card.Id,
+                    Name = card.Name,
+                    Number = card.Number,
+                    SetId = card.Set?.Id ?? string.Empty,
+                    SetName = card.Set?.Name ?? string.Empty,
+                    Series = card.Set?.Id is not null && _setSeriesMap.TryGetValue(card.Set.Id, out var series)
+                        ? series : string.Empty,
+                    Rarity = card.Rarity ?? string.Empty,
+                    ImageSmall = card.Images?.Small ?? string.Empty,
+                    ImageLarge = card.Images?.Large ?? string.Empty,
+                    SyncedAt = syncedAt
+                }).ToList();
+
+            if (batch.Count > 0)
             {
-                Id = card.Id,
-                Name = card.Name,
-                Number = card.Number,
-                SetId = card.Set?.Id ?? string.Empty,
-                SetName = card.Set?.Name ?? string.Empty,
-                Series = card.Set?.Id is not null && _setSeriesMap.TryGetValue(card.Set.Id, out var series)
-                    ? series : string.Empty,
-                Rarity = card.Rarity ?? string.Empty,
-                ImageSmall = card.Images?.Small ?? string.Empty,
-                ImageLarge = card.Images?.Large ?? string.Empty,
-                SyncedAt = syncedAt
-            }).ToList();
+                try
+                {
+                    await db.TCGCards.AddRangeAsync(batch, ct);
+                    await db.SaveChangesAsync(ct);
+                    total += batch.Count;
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Não deixa uma falha de página (ex: duplicata que escapou do filtro
+                    // por causa de concorrência) derrubar o BackgroundService inteiro.
+                    _logger.LogError(ex, "Falha ao salvar página {Page}. Pulando esta página e continuando.", page);
+                    db.ChangeTracker.Clear();
+                }
+            }
 
-            await db.TCGCards.AddRangeAsync(batch, ct);
-            await db.SaveChangesAsync(ct);
-
-            total += batch.Count;
-            _logger.LogInformation("Página {Page} salva — {Total} cartas no total", page, total);
+            _logger.LogInformation("Página {Page} salva — {Total} cartas no total ({Skipped} já existiam)",
+                page, total, response.Data.Count - batch.Count);
 
             if (response.Data.Count < pageSize)
                 break;
