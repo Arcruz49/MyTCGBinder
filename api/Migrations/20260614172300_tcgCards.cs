@@ -11,6 +11,8 @@ namespace MyTCGBinder.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("DELETE FROM user_cards;");
+
             migrationBuilder.CreateTable(
                 name: "tcg_cards",
                 columns: table => new

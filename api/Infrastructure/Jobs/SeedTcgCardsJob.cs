@@ -37,7 +37,7 @@ public class SeedTcgCardsJob : BackgroundService
         var db = scope.ServiceProvider.GetRequiredService<Context>();
 
         var existingCount = await db.TCGCards.CountAsync(stoppingToken);
-        if (existingCount > 20000)
+        if (existingCount > 30000)
         {
             _logger.LogInformation("TCG cards já estão no banco ({Count}). Seed ignorado.", existingCount);
             return;
