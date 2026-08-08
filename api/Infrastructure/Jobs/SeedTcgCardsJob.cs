@@ -48,7 +48,7 @@ public class SeedTcgCardsJob : BackgroundService
         else
             _logger.LogInformation("Iniciando seed das cartas TCG...");
 
-        await SeedSetsAsync(stoppingToken);
+        // await SeedSetsAsync(stoppingToken);
         await SeedCardsAsync(db, stoppingToken);
 
         _logger.LogInformation("Seed concluído.");
